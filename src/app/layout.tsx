@@ -1,6 +1,8 @@
+import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 
 import type { Metadata } from "next";
+import { Merriweather } from "next/font/google";
 
 export const metadata: Metadata = {
 	title: "Supabing",
@@ -8,11 +10,16 @@ export const metadata: Metadata = {
 	icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
+const merriweather = Merriweather({
+	weight: ["400", "700"],
+	subsets: ["latin"],
+});
+
 export default function RootLayout({
 	children,
 }: Readonly<{ children: React.ReactNode }>) {
 	return (
-		<html lang="zh" className="antialiased">
+		<html lang="zh" className={cn("antialiased", `${merriweather.className}`)}>
 			<body>{children}</body>
 		</html>
 	);

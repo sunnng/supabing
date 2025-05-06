@@ -1,14 +1,36 @@
+"use client";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
-export function SignInForm({
-	className,
-	...props
-}: React.ComponentPropsWithoutRef<"form">) {
+const formSchema = z.object({
+	username: z.string().min(2).max(50),
+});
+
+export function SignInForm() {
+	// 1. Define your form.
+	const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			username: "",
+		},
+	});
+
+	// 2. Define a submit handler.
+	function onSubmit(values: z.infer<typeof formSchema>) {
+		// Do something with the form values.
+		// ✅ This will be type-safe and validated.
+		console.log(values);
+	}
+
 	return (
-		<form className={cn("flex flex-col gap-6", className)} {...props}>
+		<form className={cn("flex flex-col gap-6")}>
 			<div className="flex flex-col items-center gap-2 text-center">
 				<h1 className="font-bold text-2xl">Login to your account</h1>
 				<p className="text-balance text-muted-foreground text-sm">
