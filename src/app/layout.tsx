@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 
+import Providers from "@/components/providers";
 import type { Metadata } from "next";
 import { Merriweather } from "next/font/google";
 
@@ -19,8 +20,14 @@ export default function RootLayout({
 	children,
 }: Readonly<{ children: React.ReactNode }>) {
 	return (
-		<html lang="zh" className={cn("antialiased", `${merriweather.className}`)}>
-			<body>{children}</body>
+		<html
+			lang="zh"
+			className={cn("antialiased", `${merriweather.className}`)}
+			suppressHydrationWarning
+		>
+			<body>
+				<Providers>{children}</Providers>
+			</body>
 		</html>
 	);
 }
