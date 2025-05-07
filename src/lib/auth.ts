@@ -1,8 +1,9 @@
+import { db } from "@/server/db"; // your drizzle instance
 import { betterAuth } from "better-auth";
-import { createPool } from "mysql2/promise";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
 
 export const auth = betterAuth({
-  database: createPool({
-    // connection options
+  database: drizzleAdapter(db, {
+    provider: "mysql", // or "pg", "sqlite"
   }),
 });

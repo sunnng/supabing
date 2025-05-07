@@ -9,12 +9,13 @@ export default function SignInPage() {
 			<div className="absolute top-0 mx-auto mt-6 w-full px-8 sm:px-6 lg:px-8">
 				<div className="flex justify-center gap-2 md:justify-start">
 					<Link href="#" className="flex items-center gap-2 font-medium">
-						<Image
-							src={"/logo.svg"}
+						<MaskedImage
+							src={"/logo.png"}
 							width={136}
 							height={136}
 							alt="logo"
 							className="size-8"
+							variant="shape4"
 						/>
 						<span className="font-bold text-xl">supabing</span>
 					</Link>
