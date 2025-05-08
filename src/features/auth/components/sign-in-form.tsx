@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -18,7 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { signIn } from "@/lib/auth-client";
 import { useMutation } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { PasswordInput } from "./password-input";
 
 const formSchema = z.object({
@@ -27,6 +28,10 @@ const formSchema = z.object({
 });
 
 export function SignInForm() {
+	const [isVisible, setIsVisible] = useState<boolean>(false);
+
+	const toggleVisibility = () => setIsVisible((prevState) => !prevState);
+
 	const mutation = useMutation({
 		mutationFn: async (values: z.infer<typeof formSchema>) => {
 			const { data, error } = await signIn.email({
@@ -81,7 +86,11 @@ export function SignInForm() {
 							<FormItem>
 								<FormLabel>Email</FormLabel>
 								<FormControl>
-									<Input placeholder="m@example.com" {...field} />
+									<Input
+										placeholder="you@example.com"
+										type="email"
+										{...field}
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -104,7 +113,28 @@ export function SignInForm() {
 								</div>
 
 								<FormControl>
-									<Input type="password" {...field} />
+									<div className="relative">
+										<Input
+											className="pe-9"
+											placeholder="Password"
+											type={isVisible ? "text" : "password"}
+											{...field}
+										/>
+										<button
+											className="absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-lg text-muted-foreground/80 outline-offset-2 transition-colors hover:text-foreground focus:z-10 focus-visible:outline focus-visible:outline-ring/70 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
+											type="button"
+											onClick={toggleVisibility}
+											aria-label={isVisible ? "Hide password" : "Show password"}
+											aria-pressed={isVisible}
+											aria-controls="password"
+										>
+											{isVisible ? (
+												<EyeOff size={16} strokeWidth={2} aria-hidden="true" />
+											) : (
+												<Eye size={16} strokeWidth={2} aria-hidden="true" />
+											)}
+										</button>
+									</div>
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -118,7 +148,7 @@ export function SignInForm() {
 						size="lg"
 					>
 						{mutation.isPending && <Loader2 className="animate-spin" />}
-						Login
+						Sign In
 					</Button>
 
 					<div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-border after:border-t">
