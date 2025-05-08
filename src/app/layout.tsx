@@ -3,7 +3,7 @@ import "@/styles/globals.css";
 
 import Providers from "@/components/providers";
 import type { Metadata } from "next";
-import { Merriweather } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 
 export const metadata: Metadata = {
 	title: "Supabing",
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 	icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-const merriweather = Merriweather({
+const fontName = DM_Sans({
 	weight: ["400", "700"],
 	subsets: ["latin"],
 });
@@ -22,10 +22,11 @@ export default function RootLayout({
 	return (
 		<html
 			lang="zh"
-			className={cn("antialiased", `${merriweather.className}`)}
+			className={cn("antialiased", `${fontName.className}`)}
 			suppressHydrationWarning
 		>
 			<body>
+				<div className="texture" />
 				<Providers>{children}</Providers>
 			</body>
 		</html>
