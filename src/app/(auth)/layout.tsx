@@ -16,6 +16,7 @@ export default function RootLayout({
 							height={136}
 							alt="logo"
 							className="size-8"
+							priority={true}
 						/>
 						<span className="font-bold text-xl">supabina</span>
 					</Link>
