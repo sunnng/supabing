@@ -26,7 +26,7 @@ const formSchema = z
 	.object({
 		name: z
 			.string()
-			.min(3, { message: "用户名最少需要 3 个字符" }) // 长度规则保持不变
+			.min(2, { message: "用户名最少需要 2 个字符" }) // 长度规则保持不变
 			.max(10, { message: "用户名最多不能超过 10 个字符" }) // 长度规则保持不变
 			// 修改正则表达式，允许字母、数字、下划线、连字符 和 中文字符
 			// ^ 匹配字符串的开始
@@ -104,13 +104,13 @@ export function SignUpForm() {
 				className="flex flex-col gap-6"
 			>
 				<div className="flex flex-col items-start gap-2 text-center">
-					<h1 className="font-bold text-3xl">Sign Up</h1>
+					<h1 className="font-bold text-3xl">Sign up</h1>
 					<p className="text-balance text-muted-foreground text-sm">
 						Enter your information to create an account
 					</p>
 				</div>
 
-				<div className="grid gap-6">
+				<div className="grid gap-4">
 					<FormField
 						control={form.control}
 						name="name"
@@ -200,7 +200,7 @@ export function SignUpForm() {
 
 					<Button
 						type="submit"
-						className="mt-2 w-full cursor-pointer"
+						className="mt-4 w-full cursor-pointer"
 						size="lg"
 						disabled={mutation.isPending}
 					>
