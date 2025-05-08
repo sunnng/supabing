@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function SignInPage() {
 	return (
-		<div className="relative grid min-h-svh xl:grid-cols-[2fr_3fr]">
+		<div className="relative grid min-h-svh xl:grid-cols-[3fr_4fr]">
 			<div className="absolute top-0 mx-auto mt-6 w-full px-8 sm:px-6 lg:px-8">
 				<div className="flex justify-center gap-2 md:justify-start">
 					<Link href="#" className="flex items-center gap-2 font-medium">
