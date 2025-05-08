@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "cae23e2e-9add-442e-aca4-db0cd8873133",
+  "id": "36b9b6ed-dd5f-442e-87cd-3a027fc223a0",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "supabing_account": {
@@ -30,7 +30,7 @@
         },
         "user_id": {
           "name": "user_id",
-          "type": "text",
+          "type": "varchar(36)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -180,7 +180,7 @@
         },
         "user_id": {
           "name": "user_id",
-          "type": "text",
+          "type": "varchar(36)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false

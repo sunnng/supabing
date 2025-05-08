@@ -15,7 +15,7 @@
   --secondary: oklch(0.48 0.08 91.12);
   --secondary-foreground: oklch(0.98 0.01 95.16);
   --muted: oklch(0.86 0.06 93.75);
-  --muted-foreground: oklch(0.23 0.03 93.44);
+  --muted-foreground: oklch(0.45 0.07 91.54);
   --accent: oklch(0.86 0.06 93.75);
   --accent-foreground: oklch(0.28 0.04 91.26);
   --destructive: oklch(0.54 0.14 32.14);
@@ -36,7 +36,7 @@
   --sidebar-accent-foreground: oklch(0.36 0.06 91.04);
   --sidebar-border: oklch(0.91 0.02 88.00);
   --sidebar-ring: oklch(0.73 0.06 130.85);
-  --font-sans: DM Sans, sans-serif;
+  --font-sans: Merriweather, serif;
   --font-serif: Source Serif 4, serif;
   --font-mono: JetBrains Mono, monospace;
   --radius: 0.425rem;
@@ -83,7 +83,7 @@
   --sidebar-accent-foreground: oklch(0.27 0.01 61.02);
   --sidebar-border: oklch(0.44 0.02 84.55);
   --sidebar-ring: oklch(0.68 0.06 132.45);
-  --font-sans: DM Sans, sans-serif;
+  --font-sans: Merriweather, serif;
   --font-serif: Source Serif 4, serif;
   --font-mono: JetBrains Mono, monospace;
   --radius: 0.425rem;

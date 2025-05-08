@@ -11,6 +11,9 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
+			"a11y": {
+				"noLabelWithoutControl": "off"
+			},
 			"nursery": {
 				"useSortedClasses": {
 					"level": "warn",

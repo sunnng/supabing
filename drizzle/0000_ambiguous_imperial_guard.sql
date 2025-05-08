@@ -2,7 +2,7 @@ CREATE TABLE `supabing_account` (
 	`id` varchar(36) NOT NULL,
 	`account_id` text NOT NULL,
 	`provider_id` text NOT NULL,
-	`user_id` text NOT NULL,
+	`user_id` varchar(36) NOT NULL,
 	`access_token` text,
 	`refresh_token` text,
 	`id_token` text,
@@ -23,7 +23,7 @@ CREATE TABLE `supabing_session` (
 	`updated_at` timestamp NOT NULL,
 	`ip_address` text,
 	`user_agent` text,
-	`user_id` text NOT NULL,
+	`user_id` varchar(36) NOT NULL,
 	CONSTRAINT `supabing_session_id` PRIMARY KEY(`id`),
 	CONSTRAINT `supabing_session_token_unique` UNIQUE(`token`)
 );
