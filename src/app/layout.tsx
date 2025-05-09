@@ -1,11 +1,19 @@
 import "@/styles/globals.css";
 
+import { ActiveThemeProvider } from "@/components/active-theme";
 import Providers from "@/components/providers";
+import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { fontVariables } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 
 import type { Metadata } from "next";
-import { Merriweather } from "next/font/google";
+import { cookies } from "next/headers";
+
+const META_THEME_COLORS = {
+	light: "#ffffff",
+	dark: "#09090b",
+};
 
 export const metadata: Metadata = {
 	title: "Supabing",
@@ -13,24 +21,49 @@ export const metadata: Metadata = {
 	icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-const fontName = Merriweather({
-	weight: ["400", "700"],
-	subsets: ["latin"],
-});
-
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{ children: React.ReactNode }>) {
+	const cookieStore = await cookies();
+	const activeThemeValue = cookieStore.get("active_theme")?.value;
+	const isScaled = activeThemeValue?.endsWith("-scaled");
+
 	return (
-		<html
-			lang="zh"
-			className={cn("antialiased", `${fontName.className}`)}
-			suppressHydrationWarning
-		>
-			<body>
-				<div className="texture" />
-				<Providers>{children}</Providers>
-				<Toaster />
+		<html lang="zh" suppressHydrationWarning>
+			<head>
+				<script
+					dangerouslySetInnerHTML={{
+						__html: `
+              try {
+                if (localStorage.theme === 'dark' || ((!('theme' in localStorage) || localStorage.theme === 'system') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  document.querySelector('meta[name="theme-color"]').setAttribute('content', '${META_THEME_COLORS.dark}')
+                }
+              } catch (_) {}
+            `,
+					}}
+				/>
+			</head>
+			<body
+				className={cn(
+					"overscroll-none bg-background font-sans antialiased",
+					activeThemeValue ? `theme-${activeThemeValue}` : "",
+					isScaled ? "theme-scaled" : "",
+					fontVariables,
+				)}
+			>
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="system"
+					enableSystem
+					disableTransitionOnChange
+					enableColorScheme
+				>
+					<ActiveThemeProvider initialTheme={activeThemeValue}>
+						<div className="texture" />
+						<Providers>{children}</Providers>
+						<Toaster />
+					</ActiveThemeProvider>
+				</ThemeProvider>
 			</body>
 		</html>
 	);
