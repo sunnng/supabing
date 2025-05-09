@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -18,7 +19,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signUp } from "@/lib/auth-client";
-import { useMutation } from "@tanstack/react-query";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { PasswordInput } from "./password-input";
 
@@ -57,31 +57,11 @@ const formSchema = z
 	});
 
 export function SignUpForm() {
+	const [loading, setLoading] = useState(false);
 	const [isVisible, setIsVisible] = useState<boolean>(false);
+	const router = useRouter();
 
 	const toggleVisibility = () => setIsVisible((prevState) => !prevState);
-
-	const mutation = useMutation({
-		mutationFn: async (values: z.infer<typeof formSchema>) => {
-			const { data, error } = await signUp.email({
-				name: values.name,
-				email: values.email,
-				password: values.password,
-			});
-
-			if (error) {
-				throw new Error(error.message);
-			}
-
-			return data;
-		},
-		onSuccess: (data, variables, context) => {
-			toast.success("Sign Up Success!");
-		},
-		onError: (error) => {
-			toast.error(`Sign Up Failed: ${error.message} !`);
-		},
-	});
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -93,8 +73,28 @@ export function SignUpForm() {
 		},
 	});
 
-	function onSubmit(values: z.infer<typeof formSchema>) {
-		mutation.mutate(values);
+	async function onSubmit(values: z.infer<typeof formSchema>) {
+		await signUp.email({
+			email: values.email,
+			password: values.password,
+			name: values.name,
+			callbackURL: "/dashboard",
+			fetchOptions: {
+				onResponse: () => {
+					setLoading(false);
+				},
+				onRequest: () => {
+					setLoading(true);
+				},
+				onError: (ctx) => {
+					toast.error(ctx.error.message);
+				},
+				onSuccess: async () => {
+					router.push("/dashboard");
+					toast.success("Sign up success!");
+				},
+			},
+		});
 	}
 
 	return (
@@ -202,9 +202,9 @@ export function SignUpForm() {
 						type="submit"
 						className="mt-4 w-full cursor-pointer"
 						size="lg"
-						disabled={mutation.isPending}
+						disabled={loading}
 					>
-						{mutation.isPending && <Loader2 className="animate-spin" />}
+						{loading && <Loader2 className="animate-spin" />}
 						Sign Up
 					</Button>
 
