@@ -12,50 +12,47 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import type { FontKeys } from "@/lib/fonts";
-import { useFont } from "./font-provider";
 
-type ThemeType = {
-	name: string;
-	value: string;
-	font: string;
-};
-
-const THEME_CONFIG = {
-	"kodama-grove": {
-		name: "Kodama Grove",
-		value: "kodama-grove",
-		font: "merriweather",
-	},
-	"retro-arcade": {
-		name: "Retro Arcade",
-		value: "retro-arcade",
-		font: "outfit",
-	},
-	default: {
-		name: "Default",
-		value: "default",
-		font: "sans",
-	},
-};
-
-type ThemeKeys = keyof typeof THEME_CONFIG;
-
-const DEFAULT_THEMES: ThemeType[] = [
+const DEFAULT_THEMES = [
 	{
 		name: "Default",
 		value: "default",
-		font: "sans",
 	},
 	{
 		name: "Kodama Grove",
 		value: "kodama-grove",
-		font: "merriweather",
 	},
 	{
 		name: "Retro Arcade",
 		value: "retro-arcade",
-		font: "outfit",
+	},
+	{
+		name: "Doom 64",
+		value: "doom-64",
+	},
+	{
+		name: "Supabase",
+		value: "supabase",
+	},
+	{
+		name: "Clean Slate",
+		value: "clean-slate",
+	},
+	{
+		name: "Modern Minimal",
+		value: "modern-minimal",
+	},
+	{
+		name: "Neo Brutalism",
+		value: "neo-brutalism",
+	},
+	{
+		name: "Twitter",
+		value: "twitter",
+	},
+	{
+		name: "Cosmic Night",
+		value: "cosmic-night",
 	},
 ];
 
@@ -65,8 +62,8 @@ const SCALED_THEMES = [
 		value: "default-scaled",
 	},
 	{
-		name: "Blue",
-		value: "blue-scaled",
+		name: "Kodama Grove",
+		value: "kodama-grove-scaled",
 	},
 ];
 
@@ -79,21 +76,13 @@ const MONO_THEMES = [
 
 export function ThemeSelector() {
 	const { activeTheme, setActiveTheme } = useThemeConfig();
-	const { currentFontKey, setCurrentFontKey } = useFont();
-
-	function handleThemeChange(value: ThemeKeys) {
-		setActiveTheme(value);
-		const themeFont = THEME_CONFIG[value].font as FontKeys;
-
-		setCurrentFontKey(themeFont);
-	}
 
 	return (
 		<div className="flex items-center gap-2">
 			<Label htmlFor="theme-selector" className="sr-only">
 				Theme
 			</Label>
-			<Select value={activeTheme} onValueChange={handleThemeChange}>
+			<Select value={activeTheme} onValueChange={setActiveTheme}>
 				<SelectTrigger
 					id="theme-selector"
 					size="sm"

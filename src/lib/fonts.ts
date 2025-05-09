@@ -7,9 +7,22 @@ import {
   Mulish,
   Noto_Sans_Mono,
   Outfit,
+  Oxanium,
+  Poppins,
 } from "next/font/google";
 
 import { cn } from "@/lib/utils";
+
+const fontPoppins = Poppins({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-poppins",
+});
+
+const fontOxanium = Oxanium({
+  subsets: ["latin"],
+  variable: "--font-oxanium",
+});
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -60,19 +73,7 @@ export const fontVariables = cn(
   fontMullish.variable,
   fontInter.variable,
   fontMerriweather.variable,
-  fontOutfit.variable
+  fontOutfit.variable,
+  fontOxanium.variable,
+  fontPoppins.variable
 );
-
-// 配置主题字体
-export const fonts = {
-  sans: "--font-sans",
-  mono: "--font-mono",
-  instrument: "--font-instrument",
-  notoMono: "--font-noto-mono",
-  mullish: "--font-mullish",
-  inter: "--font-inter",
-  merriweather: "--font-merriweather",
-  outfit: "--font-outfit",
-};
-
-export type FontKeys = keyof typeof fonts;
