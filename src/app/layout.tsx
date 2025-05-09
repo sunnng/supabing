@@ -4,10 +4,11 @@ import { ActiveThemeProvider } from "@/components/active-theme";
 import Providers from "@/components/providers";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { fontVariables } from "@/lib/fonts";
+import { fontVariables, fonts } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 
-import type { Metadata } from "next";
+import { FontProvider } from "@/components/font-provider";
+import type { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
 
 const META_THEME_COLORS = {
@@ -21,6 +22,13 @@ export const metadata: Metadata = {
 	icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
+export const viewport: Viewport = {
+	themeColor: META_THEME_COLORS.light,
+};
+
+// 将映射转换为脚本可用的 JSON 字符串
+const fontVariableMapJson = JSON.stringify(fonts);
+
 export default async function RootLayout({
 	children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -29,26 +37,45 @@ export default async function RootLayout({
 	const isScaled = activeThemeValue?.endsWith("-scaled");
 
 	return (
-		<html lang="zh" suppressHydrationWarning>
+		<html lang="zh" suppressHydrationWarning className={cn(fontVariables)}>
 			<head>
 				<script
 					dangerouslySetInnerHTML={{
 						__html: `
-              try {
-                if (localStorage.theme === 'dark' || ((!('theme' in localStorage) || localStorage.theme === 'system') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+              (function() {
+                try {
+									if (localStorage.theme === 'dark' || ((!('theme' in localStorage) || localStorage.theme === 'system') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                   document.querySelector('meta[name="theme-color"]').setAttribute('content', '${META_THEME_COLORS.dark}')
                 }
-              } catch (_) {}
+
+                  const fontVariableMap = ${fontVariableMapJson}; // 将映射注入脚本
+                  const storedFontKey = localStorage.getItem('selectedFont');
+                  const defaultFontKey = 'sans'; // 你的默认字体键
+
+                  // 获取要应用的字体键 (优先 localStorage, 然后默认)
+                  const fontKeyToApply = (storedFontKey && fontVariableMap[storedFontKey]) ? storedFontKey : defaultFontKey;
+
+                  const fontVariable = fontVariableMap[fontKeyToApply];
+									console.log(fontVariable)
+
+                  if (fontVariable && typeof window !== 'undefined') {
+                    document.documentElement.style.setProperty('--font-main', \`var(\${fontVariable})\`);
+                  }
+                } catch (e) {
+                  // 捕获错误，例如 localStorage 不可用
+                  console.error('Early font script failed:', e);
+                }
+              })();
             `,
 					}}
 				/>
 			</head>
+
 			<body
 				className={cn(
-					"overscroll-none bg-background font-sans antialiased",
+					"overscroll-none bg-background font-main antialiased",
 					activeThemeValue ? `theme-${activeThemeValue}` : "",
 					isScaled ? "theme-scaled" : "",
-					fontVariables,
 				)}
 			>
 				<ThemeProvider
@@ -60,7 +87,9 @@ export default async function RootLayout({
 				>
 					<ActiveThemeProvider initialTheme={activeThemeValue}>
 						<div className="texture" />
-						<Providers>{children}</Providers>
+						<FontProvider>
+							<Providers>{children}</Providers>
+						</FontProvider>
 						<Toaster />
 					</ActiveThemeProvider>
 				</ThemeProvider>

@@ -12,19 +12,50 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import type { FontKeys } from "@/lib/fonts";
+import { useFont } from "./font-provider";
 
-const DEFAULT_THEMES = [
+type ThemeType = {
+	name: string;
+	value: string;
+	font: string;
+};
+
+const THEME_CONFIG = {
+	"kodama-grove": {
+		name: "Kodama Grove",
+		value: "kodama-grove",
+		font: "merriweather",
+	},
+	"retro-arcade": {
+		name: "Retro Arcade",
+		value: "retro-arcade",
+		font: "outfit",
+	},
+	default: {
+		name: "Default",
+		value: "default",
+		font: "sans",
+	},
+};
+
+type ThemeKeys = keyof typeof THEME_CONFIG;
+
+const DEFAULT_THEMES: ThemeType[] = [
 	{
 		name: "Default",
 		value: "default",
+		font: "sans",
 	},
 	{
 		name: "Kodama Grove",
 		value: "kodama-grove",
+		font: "merriweather",
 	},
 	{
 		name: "Retro Arcade",
 		value: "retro-arcade",
+		font: "outfit",
 	},
 ];
 
@@ -48,13 +79,21 @@ const MONO_THEMES = [
 
 export function ThemeSelector() {
 	const { activeTheme, setActiveTheme } = useThemeConfig();
+	const { currentFontKey, setCurrentFontKey } = useFont();
+
+	function handleThemeChange(value: ThemeKeys) {
+		setActiveTheme(value);
+		const themeFont = THEME_CONFIG[value].font as FontKeys;
+
+		setCurrentFontKey(themeFont);
+	}
 
 	return (
 		<div className="flex items-center gap-2">
 			<Label htmlFor="theme-selector" className="sr-only">
 				Theme
 			</Label>
-			<Select value={activeTheme} onValueChange={setActiveTheme}>
+			<Select value={activeTheme} onValueChange={handleThemeChange}>
 				<SelectTrigger
 					id="theme-selector"
 					size="sm"

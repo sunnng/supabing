@@ -1,7 +1,3 @@
-body {
-  @apply overscroll-none bg-transparent;
-}
-
 :root {
   --header-height: calc(var(--spacing) * 12 + 1px);
 }
@@ -23,13 +19,4 @@ body {
   [data-slot="toggle-group-item"] {
     --spacing: 0.222222rem;
   }
-}
-
- /* 主题特定字体设置 */
- .theme-retro-arcade {
-  --font-sans: var(--font-outfit), sans-serif;
-}
-
-.theme-kodama-grove {
-  --font-sans: var(--font-merriweather), sans-serif;
 }

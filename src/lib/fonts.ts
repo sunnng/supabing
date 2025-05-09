@@ -62,3 +62,17 @@ export const fontVariables = cn(
   fontMerriweather.variable,
   fontOutfit.variable
 );
+
+// 配置主题字体
+export const fonts = {
+  sans: "--font-sans",
+  mono: "--font-mono",
+  instrument: "--font-instrument",
+  notoMono: "--font-noto-mono",
+  mullish: "--font-mullish",
+  inter: "--font-inter",
+  merriweather: "--font-merriweather",
+  outfit: "--font-outfit",
+};
+
+export type FontKeys = keyof typeof fonts;

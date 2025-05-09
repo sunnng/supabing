@@ -1,6 +1,6 @@
 "use client";
 
-import { Angry, CirclePlus, type LucideIcon, Mail } from "lucide-react";
+import { CirclePlus, type LucideIcon, Mail } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
