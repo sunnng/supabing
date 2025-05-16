@@ -15,7 +15,7 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { CirclePlus, LayoutDashboard, List, Smile } from "lucide-react";
+import { LayoutDashboard, List, Smile } from "lucide-react";
 
 const data = {
 	user: {

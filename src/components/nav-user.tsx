@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import {
 	CreditCard,
 	DotSquare,
@@ -24,6 +26,7 @@ import {
 	SidebarMenuItem,
 	useSidebar,
 } from "@/components/ui/sidebar";
+import { signOut } from "@/lib/auth-client";
 
 export function NavUser({
 	user,
@@ -35,6 +38,7 @@ export function NavUser({
 	};
 }) {
 	const { isMobile } = useSidebar();
+	const router = useRouter();
 
 	return (
 		<SidebarMenu>
@@ -94,7 +98,18 @@ export function NavUser({
 							</DropdownMenuItem>
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem>
+						<DropdownMenuItem
+							onSelect={async () => {
+								console.log("log out")
+								await signOut({
+									fetchOptions: {
+										onSuccess: () => {
+											router.push("/sign-in"); // redirect to login page
+										},
+									},
+								});
+							}}
+						>
 							<LogOut />
 							Log out
 						</DropdownMenuItem>

@@ -1,7 +1,7 @@
-import { auth } from "@/lib/auth"; // path to your Better Auth server instance
-
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+
+import { auth } from "@/lib/auth";
 
 export default async function DashboardPage() {
 	let session = null;
