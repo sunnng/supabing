@@ -1,5 +1,6 @@
 "use client";
 
+import type { Session } from "@/lib/auth-types";
 import type * as React from "react";
 
 import { NavDocuments } from "@/components/nav-documents";
@@ -134,7 +135,12 @@ const data = {
 	],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+// 定义 AppSidebar 的 props 类型
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+	session: Session; // 明确要求 session 必须存在且类型为 Session
+}
+
+export function AppSidebar({ session, ...props }: AppSidebarProps) {
 	return (
 		<Sidebar collapsible="offcanvas" {...props}>
 			<SidebarHeader>
@@ -158,7 +164,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 				<NavSecondary items={data.navSecondary} className="mt-auto" />
 			</SidebarContent>
 			<SidebarFooter>
-				<NavUser user={data.user} />
+				<NavUser session={session} />
 			</SidebarFooter>
 		</Sidebar>
 	);
